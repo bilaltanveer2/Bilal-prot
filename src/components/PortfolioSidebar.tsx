@@ -1,133 +1,184 @@
-import { useState, useEffect } from "react";
-import {
-  Sidebar,
-  SidebarContent,
-  SidebarGroup,
-  SidebarGroupContent,
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
-  SidebarTrigger,
-  useSidebar,
-} from "@/components/ui/sidebar";
-import { Home, User, FolderOpen, Award, Mail, Menu, Instagram, Facebook, Linkedin } from "lucide-react";
+import { useState } from "react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { ExternalLink, Github, ShoppingCart, Smartphone } from "lucide-react";
 
-// Custom TikTok icon component
-const TikTokIcon = () => (
-  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" stroke="none" strokeWidth="0">
-    <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/>
-  </svg>
-);
+// ✅ Image imports
+import pro1 from "@/images/pro1.png";
+import pro2 from "@/images/pro2.png";
+import pro3 from "@/images/pro3.png";
+import pro4 from "@/images/pro4.png";
+import pro5 from "@/images/pro5.png";
 
-const navigationItems = [
-  { title: "Home", url: "hero", icon: Home },
-  { title: "About", url: "about", icon: User },
-  { title: "Projects", url: "projects", icon: FolderOpen },
-  { title: "Skills", url: "skills", icon: Award },
-  { title: "Contact", url: "contact", icon: Mail },
-];
-
-export function PortfolioSidebar() {
-  const { state } = useSidebar();
-  const collapsed = state === "collapsed";
-  const [activeSection, setActiveSection] = useState("hero");
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const sections = navigationItems.map(item => item.url);
-      const currentSection = sections.find(section => {
-        const element = document.getElementById(section);
-        if (element) {
-          const rect = element.getBoundingClientRect();
-          return rect.top <= 100 && rect.bottom >= 100;
-        }
-        return false;
-      });
+const ProjectsSection = () => {
+  const [showAll, setShowAll] = useState(false);
+  
+  const projects = [
+    {
+      title: "Tamween Mart - Grocery E-commerce Store",
+      description:
+        "Complete Shopify store for grocery and daily essentials with custom theme, user-friendly navigation, and optimized checkout process.",
+      tech: ["Shopify", "Liquid", "JavaScript", "Meta Pixel"],
+      category: "E-commerce",
+      icon: ShoppingCart,
+      metrics: { conversion: "+40%", revenue: "+150%", traffic: "+200%" },
+      liveUrl: "https://tamweenmart.store/",
+      password: "1",
+      image: pro1,
+    },
+    {
+      title: "Shopping Center - Multi-vendor Marketplace",
+      description:
+        "Complete Shopify store for grocery and daily essentials with custom theme, user-friendly navigation, and optimized checkout process.",
+      tech: ["Shopify", "Liquid", "JavaScript", "Meta Pixel"],
+      category: "E-commerce",
+      icon: ShoppingCart,
+      metrics: { conversion: "+40%", revenue: "+150%", traffic: "+200%" },
+      liveUrl: "https://pose-demo.myshopify.com/",
+      password: "1",
+      image: pro2,
+    },
+    {
+      title: "The Shopping kalles",
+      description:
+        "The Shopping kalles is a fully responsive Shopify store developed as part of an eCommerce project. It features a sleek product catalog, optimized user experience, and seamless payment integration.",
+      tech: ["Shopify", "Liquid", "JavaScript", "Meta Pixel"],
+      category: "E-commerce",
+      icon: ShoppingCart,
+      metrics: { conversion: "+40%", revenue: "+150%", traffic: "+200%" },
+      liveUrl: "https://kalles-5.myshopify.com/",
+      password: "4",
+      image: pro3,
+    },
+    {
+      title: "glowberryofficial",
+      description:
+        "The glowberryofficial is a fully responsive Shopify store developed as part of an eCommerce project. It features a sleek product catalog, optimized user experience, and seamless payment integration.",
+        tech: ["Shopify", "Liquid", "JavaScript", "Meta Pixel"],
+        category: "E-commerce",
+        icon: ShoppingCart,
       
-      if (currentSection) {
-        setActiveSection(currentSection);
-      }
-    };
+      metrics: { downloads: "50K+", rating: "4.8★", retention: "+65%" },
+      liveUrl: "https://glowberryofficial.com/",
+      image: pro4,
+    },
+    {
+      title: "BSG Trendy Wear",
+      description:
+"The BSG Trendy Wear is a fully responsive Shopify store developed as part of an eCommerce project. It features a sleek product catalog, optimized user experience, and seamless payment integration.",
+        tech: ["Shopify", "Liquid", "JavaScript", "Meta Pixel"],
+        category: "E-commerce",
+        icon: ShoppingCart,
+      metrics: { downloads: "50K+", rating: "4.8★", retention: "+65%" },
+      liveUrl: "https://bsgtrendywear.com/",
+      image: pro5,
+    },
+  ];
 
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  const scrollToSection = (id: string) => {
-    document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
-  };
+  // Show only first 4 projects initially, or all if showAll is true
+  const displayedProjects = showAll ? projects : projects.slice(0, 4);
 
   return (
-    <Sidebar
-      className={`${collapsed ? "w-16" : "w-64"} transition-all duration-300 bg-white border-r border-border shadow-elegant`}
-      collapsible="icon"
-    >
-      <SidebarContent>
-        <SidebarGroup>
-          {/* Logo/Brand */}
-          <div className={`p-6 border-b border-border ${collapsed ? "px-4" : ""}`}>
-            {!collapsed ? (
-              <h1 className="text-2xl font-bold text-green-500">
-                Portfolio
-              </h1>
-            ) : (
-              <div className="w-10 h-10 bg-green-500 rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-xl">P</span>
-              </div>
-            )}
+    <section id="projects" className="py-20 bg-background">
+      <div className="container mx-auto px-6">
+        <div className="max-w-6xl mx-auto">
+          <h2 className="text-4xl md:text-5xl font-bold text-center mb-6">
+            Featured <span className="bg-gradient-primary bg-clip-text text-transparent">Projects</span>
+          </h2>
+
+          <p className="text-xl text-muted-foreground text-center mb-12 leading-relaxed">
+            Showcasing successful e-commerce solutions and marketing campaigns that drive real results
+          </p>
+
+          <div className="grid md:grid-cols-2 gap-8">
+            {displayedProjects.map((project, index) => (
+              <Card key={index} className="shadow-elegant hover:shadow-glow transition-all duration-300 group">
+                {project.image && (
+                  <div className="relative h-48 overflow-hidden">
+                    <img
+                      src={project.image}
+                      alt={project.title}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                )}
+                <CardHeader>
+                  <CardTitle className="flex items-start justify-between">
+                    <div className="flex items-center gap-3">
+                      <div className="p-2 bg-gradient-primary rounded-lg">
+                        <project.icon className="w-6 h-6 text-white" />
+                      </div>
+                      <div>
+                        <h3 className="text-xl font-semibold">{project.title}</h3>
+                        <Badge variant="outline" className="border-primary text-primary mt-1">
+                          {project.category}
+                        </Badge>
+                      </div>
+                    </div>
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <p className="text-muted-foreground leading-relaxed">{project.description}</p>
+
+                  <div className="flex flex-wrap gap-2">
+                    {project.tech.map((tech, techIndex) => (
+                      <Badge key={techIndex} variant="secondary" className="text-xs">
+                        {tech}
+                      </Badge>
+                    ))}
+                  </div>
+
+                  <div className="grid grid-cols-3 gap-4 pt-4 border-t">
+                    {Object.entries(project.metrics).map(([key, value], metricIndex) => (
+                      <div key={metricIndex} className="text-center">
+                        <div className="text-lg font-bold text-primary">{value}</div>
+                        <div className="text-xs text-muted-foreground capitalize">
+                          {key.replace("_", " ")}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+
+                  <div className="flex gap-3 pt-4 flex-col">
+                    <div className="flex gap-3">
+                      <Button variant="outline" size="sm" className="flex-1" asChild>
+                        <a href={project.liveUrl} target="_blank" rel="noopener noreferrer">
+                          <ExternalLink className="w-4 h-4 mr-2" />
+                          View Live
+                        </a>
+                      </Button>
+                    </div>
+
+                    {project.password && (
+                      <div className="flex gap-3 items-center">
+                        <Badge variant="secondary" className="text-sm">
+                          pwd: {project.password}
+                        </Badge>
+                      </div>
+                    )}
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
           </div>
 
-          <SidebarGroupContent className="px-3 py-5 mb-20">
-            <SidebarMenu>
-              {navigationItems.map((item) => (
-                <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton
-                    onClick={() => scrollToSection(item.url)}
-                    className={`w-full justify-start gap-4 mb-5 py-5 text-xl transition-all duration-300 rounded-xl ${
-                      activeSection === item.url
-                        ? "bg-green-500 text-white shadow-lg"
-                        : "hover:bg-green-100 text-foreground"
-                    }`}
-                  >
-                    <item.icon className="w-8 h-8" />
-                    {!collapsed && <span className="font-medium text-xl">{item.title}</span>}
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
-            </SidebarMenu>
-            
-            {/* Social Media Icons */}
-            <div className="mt-auto pt-6 border-t border-border fixed bottom-0 left-0 right-0 bg-white pb-4" style={{ width: collapsed ? '4rem' : '16rem' }}>
-              <h3 className={`${collapsed ? "hidden" : "block"} text-base text-black mb-4 font-medium text-center`}>Connect With Me</h3>
-              <div className="flex flex-row flex-wrap gap-3 justify-center">
-                <a href="https://www.instagram.com/muhmmadbilal_official/" target="_blank" rel="noopener noreferrer" className="p-2 rounded-full hover:bg-gray-100 transition-colors" style={{ color: "#000000" }}> 
-                  <Instagram className="w-6 h-6" />
-                </a>
-                <a href="https://web.facebook.com/profile.php?id=100080977412881" target="_blank" rel="noopener noreferrer" className="p-2 rounded-full hover:bg-gray-100 transition-colors" style={{ color: "#000000" }}>
-                  <Facebook className="w-6 h-6" />
-                </a>
-                <a href="https://www.linkedin.com/in/muhammad-bilal-tanveer-826984345/" target="_blank" rel="noopener noreferrer" className="p-2 rounded-full hover:bg-gray-100 transition-colors" style={{ color: "#000000" }}>
-                  <Linkedin className="w-6 h-6" />
-                </a>
-                <a href="https://www.tiktok.com/@code_with_bilal?is_from_webapp=1&sender_device=pc" target="_blank" rel="noopener noreferrer" className="p-2 rounded-full hover:bg-gray-100 transition-colors" style={{ color: "#000000" }}>
-                  <TikTokIcon />
-                </a>
-              </div>
+          {/* Only show "View All Projects" button if there are more than 4 projects */}
+          {projects.length > 4 && (
+            <div className="text-center mt-12">
+              <Button 
+                size="lg" 
+                variant="outline"
+                onClick={() => setShowAll(!showAll)}
+              >
+                {showAll ? "Show Less" : "View All Projects"}
+              </Button>
             </div>
-          </SidebarGroupContent>
-        </SidebarGroup>
-      </SidebarContent>
-    </Sidebar>
+          )}
+        </div>
+      </div>
+    </section>
   );
-}
+};
 
-// Mobile Floating Hamburger
-export function MobileMenuTrigger() {
-  return (
-    <div className="fixed top-6 left-6 z-50 md:hidden">
-      <SidebarTrigger className="bg-white shadow-elegant rounded-full p-4 hover:shadow-glow transition-all duration-300">
-        <Menu className="w-7 h-7 text-green-500" />
-      </SidebarTrigger>
-    </div>
-  );
-}
+export default ProjectsSection;
